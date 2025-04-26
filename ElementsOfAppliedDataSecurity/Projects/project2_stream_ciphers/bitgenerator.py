@@ -5,7 +5,7 @@ class AlternatingStep:
     """Alternating-Step Generator using three LFSRs."""
 
     def __init__(self, seed=None, polyC=None, poly0=None, poly1=None):
-        # پلی‌نوم‌های پیش‌فرض اگه داده نشدن
+        # If default polynomials aren't given
         if polyC is None:
             polyC = {5, 2, 0}  # x^5 + x^2 + 1
         if poly0 is None:
@@ -13,7 +13,7 @@ class AlternatingStep:
         if poly1 is None:
             poly1 = {4, 1, 0}  # x^4 + x + 1
 
-        # محاسبه طول کل برای seed
+        # Calculating total length for seed
         lenC = max(polyC)
         len0 = max(poly0)
         len1 = max(poly1)
@@ -27,14 +27,14 @@ class AlternatingStep:
                 padding = [False] * (total_len - len(seed_bits))
                 seed_bits = Bits(padding + seed_bits.bits)
 
-        # تقسیم seed بین سه LFSR
+        # Dividing the seed between three LSFRs
         idx1 = lenC
         idx2 = lenC + len0
         self.lfsrC = LFSR(polyC, seed_bits.bits[:idx1])
         self.lfsr0 = LFSR(poly0, seed_bits.bits[idx1:idx2])
         self.lfsr1 = LFSR(poly1, seed_bits.bits[idx2:])
 
-        self.output = False  # مقدار اولیه
+        self.output = False  # Initial Value
 
     def __iter__(self):
         return self
@@ -43,9 +43,9 @@ class AlternatingStep:
         control_bit = next(self.lfsrC)
         if control_bit == 0:
             bit0 = next(self.lfsr0)
-            bit1 = self.lfsr1.output  # قبلی
+            bit1 = self.lfsr1.output  # Previous
         else:
-            bit0 = self.lfsr0.output  # قبلی
+            bit0 = self.lfsr0.output  # Previous
             bit1 = next(self.lfsr1)
         self.output = bit0 ^ bit1
         return self.output

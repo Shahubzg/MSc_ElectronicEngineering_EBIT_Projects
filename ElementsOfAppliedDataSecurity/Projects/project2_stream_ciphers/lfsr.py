@@ -11,7 +11,7 @@ class LFSR:
         else:
             self.state = Bits(state)
             if len(self.state) < self.length:
-                # اگر state کوتاهتر بود، صفر میذاریم جلوش
+                # If the state was shorter, we put zeros
                 padding = [False] * (self.length - len(self.state))
                 self.state = Bits(padding + self.state.bits)
         self.output = self.state[0]
@@ -24,16 +24,16 @@ class LFSR:
         return f"LFSR(poly={self.poly}, state={self.state})"
 
     def __next__(self):
-        # output فعلی را ذخیره کن
+        # Save the current output
         self.output = self.state[0]
         
-        # محاسبه feedback bit
+        # Calculate feedback bit
         feedback_bit = self.state[0]
         for i in range(1, self.length):
             if (self.length - i) in self.poly:
                 feedback_bit ^= self.state[i]
         
-        # شیفت
+        # Shift
         for i in range(self.length - 1):
             self.state[i] = self.state[i + 1]
         
@@ -58,7 +58,7 @@ class LFSR:
             saved_state = self.state
             self.state = Bits(state)
         else:
-            saved_state = Bits(self.state.bits)  # کپی از state
+            saved_state = Bits(self.state.bits)  # Copy from state
 
         seen_states = set()
         output_bits = []
@@ -69,7 +69,7 @@ class LFSR:
             seen_states.add(state_tuple)
             output_bits.append(next(self))
 
-        # بازگرداندن state اولیه
+        # Returning initial state
         self.state = saved_state
         return Bits(output_bits)
 
