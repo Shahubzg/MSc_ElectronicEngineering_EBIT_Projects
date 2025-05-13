@@ -1,5 +1,5 @@
 # MSc Electronic Engineering - EBIT Projects
-This repository collects coding projects, and course materials developed during my Master of Science (MSc) program in Electronic Engineering, EBIT curriculum (Electronics for Intelligent Systems, Big Data, and IoT) at the University of Bologna.
+This repository contains coursework and project implementations from my MSc in Electronic Engineering, EBIT curriculum (Electronics for Intelligent Systems, Big Data, and IoT) at the University of Bologna.
 
 ## 📚 Current Contents
 
